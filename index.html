@@ -3,6 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <style>
+    /* Garante que o body ocupe 100% */
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    /* Faz todos os elementos principais se adaptarem */
+    .container {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    iframe {
+      max-width: 100%;
+      width: 100%;
+    }
+  </style>
   <title>Sinalizar — Comunicação visual</title>
 
   <!-- Roboto -->
@@ -24,7 +43,7 @@
 </head>
 
 <body class="bg-[#f47d35] min-h-screen text-white">
-  <div class="max-w-6xl mx-auto p-4 sm:p-6">
+  <div class="w-full px-4 sm:px-6">
     <header class="mb-6">
       <h1 class="text-2xl sm:text-3xl font-bold">Sinalizar</h1>
       <p>Comunicação visual</p>
@@ -249,3 +268,4 @@ document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>
 </html>
+

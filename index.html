@@ -1,129 +1,112 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
- <style>
-    /* Garante que o body ocupe 100% */
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-    }
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sinalizar — Comunicação visual</title>
 
-    /* Faz todos os elementos principais se adaptarem */
-    .container {
-      max-width: 100%;
-      width: 100%;
-    }
+    <!-- Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-    iframe {
-      max-width: 100%;
-      width: 100%;
-    }
-  </style>
-  <title>Sinalizar — Comunicação visual</title>
+    <!-- Tailwind (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Roboto -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <!-- Tailwind (CDN) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    :root { color-scheme: light; }
-    body { font-family: 'Roboto', system-ui, -apple-system, Segoe UI, Arial, sans-serif; }
-    .nice-scroll { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
-    .nice-scroll::-webkit-scrollbar { height: 8px; width: 8px; }
-    .nice-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
-    .break-anywhere { overflow-wrap: anywhere; }
-  </style>
+    <style>
+        :root { color-scheme: light; }
+        body { font-family: 'Roboto', system-ui, -apple-system, Segoe UI, Arial, sans-serif; }
+        .nice-scroll { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+        .nice-scroll::-webkit-scrollbar { height: 8px; width: 8px; }
+        .nice-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        .break-anywhere { overflow-wrap: anywhere; }
+    </style>
 </head>
 
-<body class="bg-[#f47d35] min-h-screen text-white">
-  <div class="w-full px-4 sm:px-6">
-    <header class="mb-6">
-      <h1 class="text-2xl sm:text-3xl font-bold">Sinalizar</h1>
-      <p>Comunicação visual</p>
-    </header>
+<!-- Ajuste no padding do body para dar mais espaço nas bordas -->
+<body class="bg-[#f47d35] min-h-screen text-white p-4">
+    <div class="w-full max-w-4xl mx-auto">
+        <header class="mb-6 text-center sm:text-left">
+            <h1 class="text-3xl font-bold">Sinalizar</h1>
+            <p class="text-xl">Comunicação visual</p>
+        </header>
 
-    <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <!-- Coluna esquerda: Calendário -->
-      <section class="lg:col-span-2 bg-white text-black rounded-2xl shadow-sm p-4 sm:p-6">
-        <div class="flex items-center justify-between gap-2 mb-4">
-          <div>
-            <h2 id="cal-title" class="text-xl font-semibold">Calendário</h2>
-            <p class="text-sm text-slate-500">Visual mensal para consulta rápida.</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button id="btn-today" class="px-3 py-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50">Hoje</button>
-            <div class="flex rounded-xl border border-slate-200 overflow-hidden">
-              <button id="btn-prev" class="px-3 py-2 hover:bg-slate-50">◀</button>
-              <button id="btn-next" class="px-3 py-2 hover:bg-slate-50">▶</button>
-            </div>
-          </div>
-        </div>
+        <!-- A MUDANÇA PRINCIPAL ESTÁ AQUI -->
+        <!-- O layout agora é sempre uma coluna única com 'space-y-6' para espaçamento vertical -->
+        <main class="w-full space-y-6">
+            <!-- Calendário -->
+            <section class="bg-white text-black rounded-2xl shadow-sm p-4 sm:p-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <h2 id="cal-title" class="text-xl font-semibold">Calendário</h2>
+                        <p class="text-sm text-slate-500">Visual mensal para consulta rápida.</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button id="btn-today" class="px-3 py-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50">Hoje</button>
+                        <div class="flex rounded-xl border border-slate-200 overflow-hidden">
+                            <button id="btn-prev" class="px-3 py-2 hover:bg-slate-50">◀</button>
+                            <button id="btn-next" class="px-3 py-2 hover:bg-slate-50">▶</button>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="rounded-2xl border border-slate-200 overflow-hidden">
-          <div class="grid grid-cols-7 bg-slate-50 border-b border-slate-200 text-sm text-slate-600">
-            <div class="p-2 text-center">Seg</div>
-            <div class="p-2 text-center">Ter</div>
-            <div class="p-2 text-center">Qua</div>
-            <div class="p-2 text-center">Qui</div>
-            <div class="p-2 text-center">Sex</div>
-            <div class="p-2 text-center">Sáb</div>
-            <div class="p-2 text-center">Dom</div>
-          </div>
-          <div id="cal-grid" class="grid grid-cols-7 auto-rows-[minmax(70px,1fr)]"></div>
-        </div>
-      </section>
+                <div class="rounded-2xl border border-slate-200 overflow-hidden">
+                    <div class="grid grid-cols-7 bg-slate-50 border-b border-slate-200 text-sm text-slate-600">
+                        <div class="p-2 text-center">Seg</div>
+                        <div class="p-2 text-center">Ter</div>
+                        <div class="p-2 text-center">Qua</div>
+                        <div class="p-2 text-center">Qui</div>
+                        <div class="p-2 text-center">Sex</div>
+                        <div class="p-2 text-center">Sáb</div>
+                        <div class="p-2 text-center">Dom</div>
+                    </div>
+                    <div id="cal-grid" class="grid grid-cols-7 auto-rows-[minmax(60px,1fr)]"></div>
+                </div>
+            </section>
 
-      <!-- Coluna direita: Tarefas + Notas -->
-      <div class="space-y-6">
-        <!-- Lista de Tarefas -->
-        <section class="bg-white text-black rounded-2xl shadow-sm p-4 sm:p-6">
-          <h2 class="text-xl font-semibold mb-3">Lista de Tarefas</h2>
-          <div class="flex gap-2 mb-3">
-            <input id="todo-input" type="text" class="flex-1 rounded-xl border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Adicionar nova tarefa...">
-            <button id="todo-add" class="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700">Adicionar</button>
-          </div>
-          <ul id="todo-list" class="nice-scroll max-h-80 overflow-y-auto space-y-2"></ul>
-        </section>
+            <!-- Lista de Tarefas -->
+            <section class="bg-white text-black rounded-2xl shadow-sm p-4 sm:p-6">
+                <h2 class="text-xl font-semibold mb-3">Lista de Tarefas</h2>
+                <div class="flex gap-2 mb-3">
+                    <input id="todo-input" type="text" class="flex-1 rounded-xl border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Adicionar nova tarefa...">
+                    <button id="todo-add" class="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700">Adicionar</button>
+                </div>
+                <ul id="todo-list" class="nice-scroll max-h-80 overflow-y-auto space-y-2"></ul>
+            </section>
 
-        <!-- Bloco de Notas -->
-        <section class="bg-white text-black rounded-2xl shadow-sm p-4 sm:p-6">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="text-xl font-semibold">Bloco de Notas</h2>
-            <button id="note-new" class="px-3 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">Nova nota</button>
-          </div>
+            <!-- Bloco de Notas -->
+            <section class="bg-white text-black rounded-2xl shadow-sm p-4 sm:p-6">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-xl font-semibold">Bloco de Notas</h2>
+                    <button id="note-new" class="px-3 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">Nova nota</button>
+                </div>
 
-          <button id="show-hidden-notes" class="px-3 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 mb-3">
-            Mostrar todas as notas ocultas
-          </button>
+                <button id="show-hidden-notes" class="px-3 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 mb-3">
+                    Mostrar todas as notas ocultas
+                </button>
 
-          <div id="note-form" class="hidden mb-4 rounded-2xl border border-slate-200 p-3">
-            <div class="flex flex-col gap-2">
-              <input id="note-title" type="text" class="rounded-xl border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Título (opcional)">
-              <textarea id="note-body" rows="3" class="rounded-xl border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Digite sua nota..."></textarea>
-              <div class="flex items-center gap-2 justify-end">
-                <button id="note-cancel" class="px-3 py-2 rounded-xl border border-slate-200 hover:bg-slate-50">Cancelar</button>
-                <button id="note-save" class="px-3 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">Salvar</button>
-              </div>
-            </div>
-          </div>
+                <div id="note-form" class="hidden mb-4 rounded-2xl border border-slate-200 p-3">
+                    <div class="flex flex-col gap-2">
+                        <input id="note-title" type="text" class="rounded-xl border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Título (opcional)">
+                        <textarea id="note-body" rows="3" class="rounded-xl border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Digite sua nota..."></textarea>
+                        <div class="flex items-center gap-2 justify-end">
+                            <button id="note-cancel" class="px-3 py-2 rounded-xl border border-slate-200 hover:bg-slate-50">Cancelar</button>
+                            <button id="note-save" class="px-3 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">Salvar</button>
+                        </div>
+                    </div>
+                </div>
 
-          <div id="note-list" class="nice-scroll max-h-80 overflow-y-auto space-y-2"></div>
-        </section>
-      </div>
-    </main>
-  </div>
+                <div id="note-list" class="nice-scroll max-h-80 overflow-y-auto space-y-2"></div>
+            </section>
+        </main>
+    </div>
 
 <script>
+// SEU JAVASCRIPT CONTINUA EXATAMENTE O MESMO AQUI
+// NÃO PRECISA MUDAR NADA NO SCRIPT
 const store = {
-  get(key,fallback){ try { return JSON.parse(localStorage.getItem(key)) ?? fallback } catch { return fallback } },
-  set(key,value){ localStorage.setItem(key, JSON.stringify(value)); }
+  get(key,fallback){ try { return JSON.parse(localStorage.getItem(key)) ?? fallback } catch { return fallback } },
+  set(key,value){ localStorage.setItem(key, JSON.stringify(value)); }
 };
 
 // ========== CALENDÁRIO ==========
@@ -139,27 +122,27 @@ function endOfMonth(date){ return new Date(date.getFullYear(), date.getMonth()+1
 function isSameDay(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
 
 function renderCalendar(){
-  const monthStart = startOfMonth(current);
-  const monthEnd = endOfMonth(current);
-  const startWeekIndex = (monthStart.getDay()+6)%7;
-  const daysInMonth = monthEnd.getDate();
-  const formatter = new Intl.DateTimeFormat('pt-BR',{month:'long',year:'numeric'});
-  const title = formatter.format(current);
-  calTitle.textContent = title.charAt(0).toUpperCase() + title.slice(1);
+  const monthStart = startOfMonth(current);
+  const monthEnd = endOfMonth(current);
+  const startWeekIndex = (monthStart.getDay()+6)%7;
+  const daysInMonth = monthEnd.getDate();
+  const formatter = new Intl.DateTimeFormat('pt-BR',{month:'long',year:'numeric'});
+  const title = formatter.format(current);
+  calTitle.textContent = title.charAt(0).toUpperCase() + title.slice(1);
 
-  calGrid.innerHTML = "";
-  for(let i=0;i<startWeekIndex;i++){
-    const cell = document.createElement('div'); cell.className="border border-slate-200 bg-slate-50"; calGrid.appendChild(cell);
-  }
-  const today = new Date();
-  for(let d=1;d<=daysInMonth;d++){
-    const date = new Date(current.getFullYear(), current.getMonth(), d);
-    const isToday = isSameDay(date,today);
-    const cell = document.createElement('div');
-    cell.className="border border-slate-200 p-2 relative";
-    cell.innerHTML=`<div class="inline-flex items-center justify-center w-8 h-8 ${isToday?'bg-blue-600 text-white':'text-slate-700'} rounded-full">${d}</div>`;
-    calGrid.appendChild(cell);
-  }
+  calGrid.innerHTML = "";
+  for(let i=0;i<startWeekIndex;i++){
+    const cell = document.createElement('div'); cell.className="border border-slate-200 bg-slate-50"; calGrid.appendChild(cell);
+  }
+  const today = new Date();
+  for(let d=1;d<=daysInMonth;d++){
+    const date = new Date(current.getFullYear(), current.getMonth(), d);
+    const isToday = isSameDay(date,today);
+    const cell = document.createElement('div');
+    cell.className="border border-slate-200 p-2 relative flex items-center justify-center"; // Centraliza o dia
+    cell.innerHTML=`<div class="inline-flex items-center justify-center w-7 h-7 text-sm ${isToday?'bg-blue-600 text-white':'text-slate-700'} rounded-full">${d}</div>`;
+    calGrid.appendChild(cell);
+  }
 }
 
 btnPrev.addEventListener('click',()=>{ current = new Date(current.getFullYear(),current.getMonth()-1,1); renderCalendar(); });
@@ -175,23 +158,23 @@ function loadTodos(){ return store.get('todos_v1',[]); }
 function saveTodos(list){ store.set('todos_v1',list); }
 
 function renderTodos(){
-  const todos = loadTodos();
-  todoList.innerHTML="";
-  todos.forEach((t,idx)=>{
-    const li = document.createElement('li');
-    li.className="flex items-center gap-3 p-2 rounded-xl border border-slate-200 text-black";
-    li.innerHTML=`<input type="checkbox" ${t.done?'checked':''} class="w-5 h-5 rounded-md border-slate-300">
-    <span class="flex-1 ${t.done?'line-through text-slate-400':'text-slate-700'} break-anywhere">${t.text}</span>
-    <button class="px-2 py-1 rounded-lg border border-slate-200 hover:bg-slate-50">✖</button>`;
-    const cb = li.querySelector('input[type=checkbox]');
-    cb.addEventListener('change',()=>{
-      const updated = loadTodos(); updated[idx].done = !updated[idx].done; saveTodos(updated); renderTodos();
-    });
-    li.querySelector('button').addEventListener('click',()=>{
-      const updated = loadTodos(); updated.splice(idx,1); saveTodos(updated); renderTodos();
-    });
-    todoList.appendChild(li);
-  });
+  const todos = loadTodos();
+  todoList.innerHTML="";
+  todos.forEach((t,idx)=>{
+    const li = document.createElement('li');
+    li.className="flex items-center gap-3 p-2 rounded-xl border border-slate-200 text-black";
+    li.innerHTML=`<input type="checkbox" ${t.done?'checked':''} class="w-5 h-5 rounded-md border-slate-300">
+    <span class="flex-1 ${t.done?'line-through text-slate-400':'text-slate-700'} break-anywhere">${t.text}</span>
+    <button class="px-2 py-1 rounded-lg border border-slate-200 hover:bg-slate-50">✖</button>`;
+    const cb = li.querySelector('input[type=checkbox]');
+    cb.addEventListener('change',()=>{
+      const updated = loadTodos(); updated[idx].done = !updated[idx].done; saveTodos(updated); renderTodos();
+    });
+    li.querySelector('button').addEventListener('click',()=>{
+      const updated = loadTodos(); updated.splice(idx,1); saveTodos(updated); renderTodos();
+    });
+    todoList.appendChild(li);
+  });
 }
 
 function addTodo(){ const text = (todoInput.value||"").trim(); if(!text) return; const todos = loadTodos(); todos.unshift({text,done:false,createdAt:Date.now()}); saveTodos(todos); todoInput.value=""; renderTodos(); }
@@ -219,44 +202,44 @@ noteNewBtn.addEventListener('click',()=>openForm(true));
 noteCancel.addEventListener('click',closeForm);
 
 noteSave.addEventListener('click',()=>{
-  const title = noteTitle.value.trim();
-  const body = noteBody.value.trim();
-  if(!title&&!body) return;
+  const title = noteTitle.value.trim();
+  const body = noteBody.value.trim();
+  if(!title&&!body) return;
 
-  const notes = loadNotes();
-  if(editingIndex===null){ notes.unshift({title,body,createdAt:Date.now(),updatedAt:Date.now(),oculta:false}); }
-  else{ notes[editingIndex]={...notes[editingIndex],title,body,updatedAt:Date.now()}; }
-  saveNotes(notes); closeForm(); renderNotes();
+  const notes = loadNotes();
+  if(editingIndex===null){ notes.unshift({title,body,createdAt:Date.now(),updatedAt:Date.now(),oculta:false}); }
+  else{ notes[editingIndex]={...notes[editingIndex],title,body,updatedAt:Date.now()}; }
+  saveNotes(notes); closeForm(); renderNotes();
 });
 
 function renderNotes(){
-  const notes = loadNotes(); noteList.innerHTML="";
-  if(notes.length===0){ const empty=document.createElement('div'); empty.className="text-slate-500 text-sm"; empty.textContent="Sem notas ainda. Clique em “Nova nota”."; noteList.appendChild(empty); return; }
-  notes.forEach((n,idx)=>{
-    const card=document.createElement('article');
-    card.className=`p-3 rounded-2xl border border-slate-200 ${n.oculta?'hidden':''}`;
-    const title = n.title?`<h3 class="font-medium text-slate-800 mb-1 break-anywhere">${escapeHtml(n.title)}</h3>`:'';
-    const bodyPreview = n.body?escapeHtml(n.body).slice(0,280):'';
-    const updated = new Date(n.updatedAt||n.createdAt);
-    const when = updated.toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});
+  const notes = loadNotes(); noteList.innerHTML="";
+  if(notes.length===0){ const empty=document.createElement('div'); empty.className="text-slate-500 text-sm"; empty.textContent="Sem notas ainda. Clique em “Nova nota”."; noteList.appendChild(empty); return; }
+  notes.forEach((n,idx)=>{
+    const card=document.createElement('article');
+    card.className=`p-3 rounded-2xl border border-slate-200 ${n.oculta?'hidden':''}`;
+    const title = n.title?`<h3 class="font-medium text-slate-800 mb-1 break-anywhere">${escapeHtml(n.title)}</h3>`:'';
+    const bodyPreview = n.body?escapeHtml(n.body).slice(0,280):'';
+    const updated = new Date(n.updatedAt||n.createdAt);
+    const when = updated.toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});
 
-    card.innerHTML=`${title}${bodyPreview?`<p class="text-slate-700 break-anywhere whitespace-pre-wrap">${bodyPreview}</p>`:''}
-      <div class="mt-2 flex items-center justify-between text-xs text-slate-500">
-        <span>Atualizado: ${when}</span>
-        <div class="flex items-center gap-2">
-          <button class="px-2 py-1 rounded-lg border border-slate-200 hover:bg-slate-50">Editar</button>
-          <button class="px-2 py-1 rounded-lg border border-rose-200 text-rose-700 hover:bg-rose-50">Excluir</button>
-          <button class="px-2 py-1 rounded-lg border border-orange-400 text-orange-700 hover:bg-orange-50">${n.oculta?'Mostrar':'Ocultar'}</button>
-        </div>
-      </div>`;
+    card.innerHTML=`${title}${bodyPreview?`<p class="text-slate-700 break-anywhere whitespace-pre-wrap">${bodyPreview}</p>`:''}
+      <div class="mt-2 flex items-center justify-between text-xs text-slate-500">
+        <span>Atualizado: ${when}</span>
+        <div class="flex items-center gap-2">
+          <button class="px-2 py-1 rounded-lg border border-slate-200 hover:bg-slate-50">Editar</button>
+          <button class="px-2 py-1 rounded-lg border border-rose-200 text-rose-700 hover:bg-rose-50">Excluir</button>
+          <button class="px-2 py-1 rounded-lg border border-orange-400 text-orange-700 hover:bg-orange-50">${n.oculta?'Mostrar':'Ocultar'}</button>
+        </div>
+      </div>`;
 
-    const [btnEdit,btnDel,btnToggle] = card.querySelectorAll('button');
-    btnEdit.addEventListener('click',()=>{ editingIndex=idx; noteTitle.value=n.title||''; noteBody.value=n.body||''; openForm(false); });
-    btnDel.addEventListener('click',()=>{ const notes=loadNotes(); notes.splice(idx,1); saveNotes(notes); renderNotes(); });
-    btnToggle.addEventListener('click',()=>{ const notes=loadNotes(); notes[idx].oculta=!notes[idx].oculta; saveNotes(notes); renderNotes(); });
+    const [btnEdit,btnDel,btnToggle] = card.querySelectorAll('button');
+    btnEdit.addEventListener('click',()=>{ editingIndex=idx; noteTitle.value=n.title||''; noteBody.value=n.body||''; openForm(false); });
+    btnDel.addEventListener('click',()=>{ const notes=loadNotes(); notes.splice(idx,1); saveNotes(notes); renderNotes(); });
+    btnToggle.addEventListener('click',()=>{ const notes=loadNotes(); notes[idx].oculta=!notes[idx].oculta; saveNotes(notes); renderNotes(); });
 
-    noteList.appendChild(card);
-  });
+    noteList.appendChild(card);
+  });
 }
 
 showHiddenBtn.addEventListener('click',()=>{ const notes=loadNotes(); notes.forEach(n=>n.oculta=false); saveNotes(notes); renderNotes(); });

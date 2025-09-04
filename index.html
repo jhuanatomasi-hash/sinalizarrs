@@ -15,6 +15,19 @@
 
     <style>
         :root { color-scheme: light; }
+        
+        /* A MUDANÇA PRINCIPAL ESTÁ AQUI */
+        /* Força a página a nunca exceder a largura da tela */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Garante que o cálculo de tamanho dos elementos seja mais previsível */
+        * {
+            box-sizing: border-box;
+        }
+
         body { font-family: 'Roboto', system-ui, -apple-system, Segoe UI, Arial, sans-serif; }
         .nice-scroll { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
         .nice-scroll::-webkit-scrollbar { height: 8px; width: 8px; }
@@ -47,11 +60,10 @@
                     </div>
                 </div>
 
-                <!-- A MUDANÇA PRINCIPAL ESTÁ AQUI -->
-                <!-- Adicionamos um contêiner com 'overflow-x-auto' para permitir a rolagem horizontal APENAS na grade do calendário -->
                 <div class="rounded-2xl border border-slate-200">
-                    <div class="overflow-x-auto">
-                        <div class="min-w-[340px]">
+                    <div class="overflow-x-auto nice-scroll">
+                        <!-- Ajuste na largura mínima para garantir compatibilidade com telas mais estreitas -->
+                        <div class="min-w-[320px]">
                             <div class="grid grid-cols-7 bg-slate-50 border-b border-slate-200 text-xs text-slate-600">
                                 <div class="p-2 text-center font-semibold">Seg</div>
                                 <div class="p-2 text-center font-semibold">Ter</div>
@@ -67,17 +79,17 @@
                 </div>
             </section>
 
-            <!-- Lista de Tarefas (sem alterações) -->
+            <!-- Lista de Tarefas -->
             <section class="bg-white text-black rounded-2xl shadow-sm p-3 sm:p-6">
                 <h2 class="text-lg sm:text-xl font-semibold mb-3">Lista de Tarefas</h2>
-                <div class="flex gap-2 mb-3">
-                    <input id="todo-input" type="text" class="flex-1 rounded-xl border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" placeholder="Adicionar nova tarefa...">
-                    <button id="todo-add" class="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 text-sm">Adicionar</button>
+                <div class="flex flex-col sm:flex-row gap-2 mb-3">
+                    <input id="todo-input" type="text" class="w-full sm:flex-1 rounded-xl border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" placeholder="Adicionar nova tarefa...">
+                    <button id="todo-add" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 text-sm">Adicionar</button>
                 </div>
                 <ul id="todo-list" class="nice-scroll max-h-80 overflow-y-auto space-y-2"></ul>
             </section>
 
-            <!-- Bloco de Notas (sem alterações) -->
+            <!-- Bloco de Notas -->
             <section class="bg-white text-black rounded-2xl shadow-sm p-3 sm:p-6">
                 <div class="flex items-center justify-between mb-3">
                     <h2 class="text-lg sm:text-xl font-semibold">Bloco de Notas</h2>
@@ -105,6 +117,7 @@
     </div>
 
 <script>
+// O SCRIPT CONTINUA EXATAMENTE O MESMO
 const store = {
   get(key,fallback){ try { return JSON.parse(localStorage.getItem(key)) ?? fallback } catch { return fallback } },
   set(key,value){ localStorage.setItem(key, JSON.stringify(value)); }

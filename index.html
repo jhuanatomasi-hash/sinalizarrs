@@ -15,16 +15,11 @@
 
     <style>
         :root { color-scheme: light; }
-        
         html, body {
-            max-width: 100vw; /* Usa a largura da viewport como máximo */
+            max-width: 100vw;
             overflow-x: hidden;
         }
-
-        * {
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body { font-family: 'Roboto', system-ui, -apple-system, Segoe UI, Arial, sans-serif; }
         .nice-scroll { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
         .nice-scroll::-webkit-scrollbar { height: 8px; width: 8px; }
@@ -41,14 +36,14 @@
         </header>
 
         <main class="w-full space-y-4">
-            <!-- Calendário Ultra-Compacto -->
+            <!-- Calendário Inteligente -->
             <section class="bg-white text-black rounded-2xl shadow-sm p-3 sm:p-6">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
                     <div>
                         <h2 id="cal-title" class="text-lg sm:text-xl font-semibold">Calendário</h2>
                         <p class="text-xs sm:text-sm text-slate-500">Visual mensal.</p>
                     </div>
-                    <div class="flex items-center gap-2">
+                    <div id="cal-controls" class="flex items-center gap-2">
                         <button id="btn-today" class="px-3 py-1 text-sm rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50">Hoje</button>
                         <div class="flex rounded-xl border border-slate-200 overflow-hidden">
                             <button id="btn-prev" class="px-2 sm:px-3 py-1 hover:bg-slate-50">◀</button>
@@ -57,19 +52,30 @@
                     </div>
                 </div>
 
-                <div class="rounded-2xl border border-slate-200">
-                     <!-- A MUDANÇA PRINCIPAL ESTÁ AQUI -->
-                    <div class="grid grid-cols-7 bg-slate-50 border-b border-slate-200 text-[10px] text-slate-600">
-                        <div class="p-1 text-center font-bold">SEG</div>
-                        <div class="p-1 text-center font-bold">TER</div>
-                        <div class="p-1 text-center font-bold">QUA</div>
-                        <div class="p-1 text-center font-bold">QUI</div>
-                        <div class="p-1 text-center font-bold">SEX</div>
-                        <div class="p-1 text-center font-bold">SAB</div>
-                        <div class="p-1 text-center font-bold">DOM</div>
+                <!-- A MUDANÇA PRINCIPAL ESTÁ AQUI -->
+                <!-- Container para a Grade (Desktop) -->
+                <div id="calendar-grid-container">
+                    <div class="rounded-2xl border border-slate-200">
+                        <div class="grid grid-cols-7 bg-slate-50 border-b border-slate-200 text-[10px] text-slate-600">
+                            <div class="p-1 text-center font-bold">SEG</div>
+                            <div class="p-1 text-center font-bold">TER</div>
+                            <div class="p-1 text-center font-bold">QUA</div>
+                            <div class="p-1 text-center font-bold">QUI</div>
+                            <div class="p-1 text-center font-bold">SEX</div>
+                            <div class="p-1 text-center font-bold">SAB</div>
+                            <div class="p-1 text-center font-bold">DOM</div>
+                        </div>
+                        <div id="cal-grid" class="grid grid-cols-7 auto-rows-[minmax(38px,1fr)]"></div>
                     </div>
-                    <div id="cal-grid" class="grid grid-cols-7 auto-rows-[minmax(38px,1fr)]"></div>
                 </div>
+
+                <!-- Container para a Lista (Celular) -->
+                <div id="calendar-list-container" class="hidden">
+                    <ul id="cal-list" class="space-y-1 max-h-[260px] overflow-y-auto nice-scroll border border-slate-200 rounded-2xl p-2">
+                        <!-- O JavaScript vai preencher esta lista -->
+                    </ul>
+                </div>
+
             </section>
 
             <!-- Lista de Tarefas -->
@@ -104,12 +110,13 @@
     </div>
 
 <script>
-// O SCRIPT CONTINUA EXATAMENTE O MESMO
+// O SCRIPT FOI ATUALIZADO COM A LÓGICA INTELIGENTE
 const store = {
   get(key,fallback){ try { return JSON.parse(localStorage.getItem(key)) ?? fallback } catch { return fallback } },
   set(key,value){ localStorage.setItem(key, JSON.stringify(value)); }
 };
 const calGrid = document.getElementById('cal-grid');
+const calList = document.getElementById('cal-list');
 const calTitle = document.getElementById('cal-title');
 const btnPrev = document.getElementById('btn-prev');
 const btnNext = document.getElementById('btn-next');
@@ -118,6 +125,7 @@ let current = new Date();
 function startOfMonth(date){ return new Date(date.getFullYear(), date.getMonth(), 1); }
 function endOfMonth(date){ return new Date(date.getFullYear(), date.getMonth()+1,0); }
 function isSameDay(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+
 function renderCalendar(){
   const monthStart = startOfMonth(current);
   const monthEnd = endOfMonth(current);
@@ -126,21 +134,61 @@ function renderCalendar(){
   const formatter = new Intl.DateTimeFormat('pt-BR',{month:'long',year:'numeric'});
   const title = formatter.format(current);
   calTitle.textContent = title.charAt(0).toUpperCase() + title.slice(1);
+  const today = new Date();
+
+  // Renderiza a Grade
   calGrid.innerHTML = "";
   for(let i=0;i<startWeekIndex;i++){
     const cell = document.createElement('div'); cell.className="border-t border-r border-slate-200 bg-slate-50"; calGrid.appendChild(cell);
   }
-  const today = new Date();
   for(let d=1;d<=daysInMonth;d++){
     const date = new Date(current.getFullYear(), current.getMonth(), d);
     const isToday = isSameDay(date,today);
     const cell = document.createElement('div');
-    // MUDANÇA PRINCIPAL NO SCRIPT: Tamanho do círculo e fonte dos dias reduzidos
     cell.className="border-t border-r border-slate-200 relative flex items-center justify-center";
     cell.innerHTML=`<div class="flex items-center justify-center w-6 h-6 text-xs ${isToday?'bg-blue-600 text-white':'text-slate-700'} rounded-full">${d}</div>`;
     calGrid.appendChild(cell);
   }
+
+  // Renderiza a Lista
+  calList.innerHTML = "";
+  for(let d=1; d<=daysInMonth; d++){
+      const date = new Date(current.getFullYear(), current.getMonth(), d);
+      const isToday = isSameDay(date, today);
+      const dayNameFormatter = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' });
+      const dayName = dayNameFormatter.format(date);
+
+      const li = document.createElement('li');
+      li.className = `flex items-center justify-between p-2 rounded-lg ${isToday ? 'bg-orange-100' : ''}`;
+      li.innerHTML = `
+        <div class="flex items-center">
+            <div class="flex items-center justify-center w-8 h-8 font-bold text-md ${isToday ? 'text-orange-600' : 'text-slate-700'}">${d}</div>
+            <div class="ml-3 ${isToday ? 'font-bold text-orange-700' : 'text-slate-600'}">${dayName.charAt(0).toUpperCase() + dayName.slice(1)}</div>
+        </div>
+        ${isToday ? '<span class="text-xs font-bold text-orange-600">HOJE</span>' : ''}
+      `;
+      calList.appendChild(li);
+  }
 }
+
+function handleResponsiveLayout(){
+    const gridContainer = document.getElementById('calendar-grid-container');
+    const listContainer = document.getElementById('calendar-list-container');
+    const calControls = document.getElementById('cal-controls');
+
+    // Usamos 450px como ponto de quebra. Ajuste se necessário.
+    if(window.innerWidth < 450) {
+        gridContainer.classList.add('hidden');
+        listContainer.classList.remove('hidden');
+        calControls.classList.add('w-full', 'justify-between'); // Faz os botões ocuparem a largura
+    } else {
+        gridContainer.classList.remove('hidden');
+        listContainer.classList.add('hidden');
+        calControls.classList.remove('w-full', 'justify-between');
+    }
+}
+
+
 btnPrev.addEventListener('click',()=>{ current = new Date(current.getFullYear(),current.getMonth()-1,1); renderCalendar(); });
 btnNext.addEventListener('click',()=>{ current = new Date(current.getFullYear(),current.getMonth()+1,1); renderCalendar(); });
 btnToday.addEventListener('click',()=>{ current=new Date(); renderCalendar(); });
@@ -219,8 +267,17 @@ function renderNotes(){
   });
 }
 function escapeHtml(str){ return str.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-function init(){ renderCalendar(); renderTodos(); renderNotes(); }
+
+function init(){ 
+    renderCalendar(); 
+    renderTodos(); 
+    renderNotes(); 
+    handleResponsiveLayout();
+}
+
+// Roda a verificação quando a página carrega e quando o tamanho da janela muda
 document.addEventListener('DOMContentLoaded',init);
+window.addEventListener('resize', handleResponsiveLayout);
 </script>
 </body>
 </html>
